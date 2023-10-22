@@ -1,5 +1,6 @@
 with open('./books/frankenstein.txt', encoding="utf-8") as f:
-    file_contents = f.read()
+    file_contents = {"content": f.read(), "name": f.name}
+
 
 def count_words(content):
     words = len(content.split())
@@ -20,19 +21,17 @@ def count_letters(content):
 
 
 def letters_only(char_counts):
-    char_list = list(char_counts.keys())
-    print(char_list)
-    for letter in char_list:
-        if letter.isalpha() and letter in letters_dict:
-            print(f"The '{letter}' character was found {letters_dict[letter]} times")
-
-
-
+    sorted_char_counts = dict(sorted(char_counts.items(), key=lambda item: item[1], reverse=True))
+    for letter, count in sorted_char_counts.items():
+        if letter.isalpha():
+            print(f"The '{letter}' character was found {count} times")
 
 def print_report(file_contents):
-    print("--- Begin report of books/frankenstein.txt ---")
-    count_words(file_contents)
-    count_letters(file_contents)
+    name =file_contents["name"]
+    content = file_contents["content"]
+    print(f"--- Begin report of {name} ---")
+    count_words(content)
+    count_letters(content)
     letters_only(letters_dict)
     print("--- End report ---")
 
